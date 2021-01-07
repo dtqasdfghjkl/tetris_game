@@ -27,11 +27,19 @@ class Game {
         /* Lặp qua các phần tử của mảng board và vẽ các block tại đúng vị trí */
         for (let i = 3; i < this.boardHeight; i++) {
           for (let j = 0; j < this.boardWidth; j++) {
-            if (this.currentBoard[i][j] > 0) {
+            /*if (this.currentBoard[i][j] > 0) {
               this.ctx.fillStyle = 'rgb(0, 0, 0)'
             } else {
               this.ctx.fillStyle = 'rgb(248, 248, 248)'
-            }
+            }*/
+            if (this.currentBoard[i][j] == 0) this.ctx.fillStyle = 'rgb(248, 248, 248)'
+            else if (this.currentBoard[i][j] == 1) this.ctx.fillStyle = 'rgb(255, 87, 34)'
+            else if (this.currentBoard[i][j] == 2) this.ctx.fillStyle = 'rgb(63, 81, 181)'
+            else if (this.currentBoard[i][j] == 3) this.ctx.fillStyle = 'rgb(156, 39, 176)'
+            else if (this.currentBoard[i][j] == 4) this.ctx.fillStyle = 'rgb(255, 235, 59)'
+            else if (this.currentBoard[i][j] == 5) this.ctx.fillStyle = 'rgb(183, 28, 28)'
+            else if (this.currentBoard[i][j] == 6) this.ctx.fillStyle = 'rgb(0, 188, 212)'
+            else if (this.currentBoard[i][j] == 7) this.ctx.fillStyle = 'rgb(76, 175, 80)'
             this.ctx.fillRect(padding*2+j*(blockSize+padding), padding*2+(i-3)*(blockSize+padding), blockSize, blockSize)
           }
         }
@@ -42,15 +50,19 @@ class Game {
           let y = this.preTetromino.shape[0].length
 
         this.ctx.fillStyle = 'rgb(0, 0, 0)'
-        this.ctx.font = '28px';
+        this.ctx.font = '12px Arial'
         this.ctx.fillText('TIẾP THEO:', 300, 28)
         //this.ctx.rect(300, 40, blockSize*y+padding*(y+1), blockSize*x+padding*(x+1))
         this.ctx.fillText('ĐIỂM SỐ:', 300, 200)
+        this.ctx.font = '13px Arial'
         this.ctx.fillText(this.score.toString(), 300, 230)
         for (let i = 3; i < this.preTetromino.shape.length+3; i++) {
           for (let j = 0; j < this.preTetromino.shape[i-3].length; j++) {
-            if(this.preTetromino.shape[i-3][j] > 0)
-            this.ctx.fillRect(300+padding+j*(blockSize+padding),40 + padding+(i-3)*(blockSize+padding), blockSize, blockSize)
+            if(this.preTetromino.shape[i-3][j] > 0) {
+              this.ctx.fillStyle = this.preTetromino.color
+              this.ctx.fillRect(300+padding+j*(blockSize+padding),40 + padding+(i-3)*(blockSize+padding), blockSize, blockSize)
+            }
+            else this.ctx.fillStyle = 'rgb(0, 0, 0)'
           }
         }
       }
@@ -246,6 +258,10 @@ class Tetromino {
     return this.constructor.shapes[this.angle]
   }
 
+  get color() {
+    return this.constructor.color
+  }
+
   get width() {
     return this.shape[0].length
   }
@@ -328,7 +344,7 @@ OShape.shapes =
    [[3, 3],
     [3, 3]]]
 
-OShape.color = 'rgb(255, 235, 59)'
+OShape.color = 'rgb(156, 39, 176)'
 
 class TShape extends Tetromino { }
 
@@ -347,7 +363,7 @@ TShape.shapes =
     [4, 4],
     [0, 4]]]
 
-TShape.color = 'rgb(156, 39, 176)'
+TShape.color = 'rgb(255, 235, 59)'
 
 class SShape extends Tetromino { }
 
@@ -366,7 +382,7 @@ SShape.shapes =
     [5, 5],
     [0, 5]]]
 
-SShape.color = 'rgb(76, 175, 80)'
+SShape.color = 'rgb(183, 28, 28)'
 
 class ZShape extends Tetromino { }
 
@@ -385,7 +401,7 @@ ZShape.shapes =
     [6, 6],
     [6, 0]]]
 
-ZShape.color = 'rgb(183, 28, 28)'
+ZShape.color = 'rgb(0, 188, 212)'
 
 class IShape extends Tetromino { }
 
@@ -404,7 +420,7 @@ IShape.shapes =
 
    [[7, 7, 7, 7]]]
 
-IShape.color = 'rgb(0, 188, 212)'
+IShape.color = 'rgb(76, 175, 80)'
 
   play.onclick = function() {
   
@@ -441,5 +457,3 @@ IShape.color = 'rgb(0, 188, 212)'
       }
     })
   }
-
-
